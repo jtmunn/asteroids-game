@@ -14,6 +14,11 @@ A modern recreation of the classic Asteroids arcade game, built in C++ with Rayl
 >
 > If you're looking for examples of traditional hand-coded games, this repository may not be suitable. However, if you're interested in AI-assisted development processes or learning game programming concepts, this project demonstrates effective human-AI collaboration in software development.
 
+## 🎮 Screenshot
+
+![Asteroids Gameplay](images/screenshot.png)
+*Classic Asteroids action with modern particle effects and starfield background*
+
 ## 🚀 Features
 
 ### Core Gameplay
@@ -49,7 +54,7 @@ A modern recreation of the classic Asteroids arcade game, built in C++ with Rayl
 | **Menu Navigation** | W/S or ↑/↓ |
 | **Select** | Enter or Space |
 | **Return to Menu** | ESC (during gameplay) |
-| **Exit Game** | ESC (from menu) |
+| **Exit Game** | Select "Exit" from menu |
 
 ## 🛠️ Technical Details
 
