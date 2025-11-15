@@ -180,7 +180,6 @@ This project served as an educational exploration of:
 *C++ • Raylib • AI-Assisted Development*
 
 *An exploration of AI-powered game development for learning purposes*
-- **ESC**: Close game
 
 ---
 *Built as a learning project following classic Asteroids mechanics*
