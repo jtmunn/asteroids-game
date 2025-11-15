@@ -1,0 +1,35 @@
+# Build artifacts
+*.exe
+*.o
+*.obj
+*.a
+*.lib
+*.dll
+
+# VS Code settings (optional - you might want to keep some)
+.vscode/settings.json
+.vscode/launch.json
+
+# Debug files
+*.pdb
+*.ilk
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# High score file (if implemented)
+highscore.dat
+highscore.txt
+
+# Raylib specific
+raylib.rc.data
+
+# Backup files
+*.bak
+*.backup
