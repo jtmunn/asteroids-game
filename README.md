@@ -1,5 +1,5 @@
 # Asteroids - Classic Arcade Game Recreation
-## 🚀 **V1.0 RELEASE** - Professional-Quality Game Complete!
+## 🚀 **V1.0.1 RELEASE** - Professional-Quality Game Complete!
 
 A modern recreation of the classic Asteroids arcade game, built in C++ with Raylib. Features professional-quality audio, particle effects, high score persistence, pause functionality, and polished gameplay while maintaining the authentic retro feel.
 

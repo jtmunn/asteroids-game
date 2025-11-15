@@ -346,47 +346,37 @@ int main()
 
             case GAME_OVER:
             {
-                // Enhanced game over screen
+                // Clean game over screen with starfield background
                 DrawMenuBackground();
+                DrawRectangle(0, 0, gameWidth, gameHeight, Fade(BLACK, 0.6f));
 
-                // Main game over panel - increased height for high score display
-                DrawRectangle(gameWidth / 2 - 200, gameHeight / 2 - 130, 400, 260,
-                              Fade(BLACK, 0.8f));
-                DrawRectangleLines(gameWidth / 2 - 200, gameHeight / 2 - 130, 400, 260, RED);
-                DrawRectangleLines(gameWidth / 2 - 198, gameHeight / 2 - 128, 396, 256,
-                                   Fade(RED, 0.5f));
-
-                // Game over title with effect
+                // Game over title with shadow effect
                 DrawTextCentered("GAME OVER", gameHeight / 2 - 81, 40, BLACK, gameWidth);  // Shadow
                 DrawTextCentered("GAME OVER", gameHeight / 2 - 80, 40, RED, gameWidth);
 
-                // Stats panel
-                DrawRectangle(gameWidth / 2 - 180, gameHeight / 2 - 40, 360, 80,
-                              Fade(DARKGRAY, 0.3f));
-                DrawRectangleLines(gameWidth / 2 - 180, gameHeight / 2 - 40, 360, 80, WHITE);
-
-                DrawTextCentered("FINAL STATISTICS", gameHeight / 2 - 30, 16, YELLOW, gameWidth);
-                DrawTextCentered(TextFormat("Score: %d", score), gameHeight / 2 - 10, 20, WHITE,
+                // Statistics section
+                DrawTextCentered("FINAL STATISTICS", gameHeight / 2 - 30, 20, YELLOW, gameWidth);
+                DrawTextCentered(TextFormat("Score: %d", score), gameHeight / 2 - 5, 24, WHITE,
                                  gameWidth);
 
                 // Show if new high score was achieved
                 if (score == highScore && score > 0)
                 {
-                    DrawTextCentered("NEW HIGH SCORE!", gameHeight / 2 + 10, 18, YELLOW, gameWidth);
+                    DrawTextCentered("NEW HIGH SCORE!", gameHeight / 2 + 25, 20, YELLOW, gameWidth);
                 }
                 else
                 {
-                    DrawTextCentered(TextFormat("High Score: %d", highScore), gameHeight / 2 + 10,
-                                     18, LIGHTGRAY, gameWidth);
+                    DrawTextCentered(TextFormat("High Score: %d", highScore), gameHeight / 2 + 25,
+                                     20, LIGHTGRAY, gameWidth);
                 }
 
-                DrawTextCentered(TextFormat("Wave Reached: %d", currentWave), gameHeight / 2 + 30,
-                                 18, WHITE, gameWidth);
+                DrawTextCentered(TextFormat("Wave Reached: %d", currentWave), gameHeight / 2 + 50,
+                                 20, WHITE, gameWidth);
 
                 // Controls
-                DrawTextCentered("Press R or ENTER to Restart", gameHeight / 2 + 60, 18, LIGHTGRAY,
+                DrawTextCentered("Press R or ENTER to Restart", gameHeight / 2 + 85, 18, LIGHTGRAY,
                                  gameWidth);
-                DrawTextCentered("Press M or ESC for Menu", gameHeight / 2 + 85, 18, LIGHTGRAY,
+                DrawTextCentered("Press M or ESC for Menu", gameHeight / 2 + 110, 18, LIGHTGRAY,
                                  gameWidth);
             }
             break;
@@ -433,7 +423,7 @@ int main()
                                   Fade(WHITE, 0.8f));
                 }
 
-                DrawTextCentered(TextFormat("%.1f", waveTransitionTimer), gameHeight / 2 + 75, 16,
+                DrawTextCentered(TextFormat("%.1f", waveTransitionTimer), gameHeight / 2 + 65, 16,
                                  LIGHTGRAY, gameWidth);
             }
             break;

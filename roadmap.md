@@ -1,9 +1,14 @@
 # Asteroids Development Roadmap
 *AI-Assisted Learning Project using GitHub Copilot Agent Mode*
 
-## 🎯 Current Status: V1.0 RELEASE READY! 🎉
+## 🎯 Current Status: V1.0.1 RELEASE READY! 🎉
 
 > **Note:** This project was developed primarily through GitHub Copilot Agent Mode as a learning exercise in AI-assisted game development. The roadmap reflects the collaborative process between human direction and AI implementation.
+
+**V1.0.1 RELEASE COMPLETED November 2025:**
+- ✅ **UI Polish Update** with fixed wave transition timer positioning
+- ✅ **Clean Game Over Screen** with simplified layout and better text hierarchy
+- ✅ **Enhanced Visual Consistency** across all game screens
 
 **V1.0 RELEASE COMPLETED November 2025:**
 - ✅ **Modular 8-file architecture** with clean separation of concerns

@@ -1,5 +1,20 @@
 # Asteroids Game - Development Changelog
 
+## [V1.0.1] - November 15, 2025 - 🎨 UI Polish Update
+
+### ✅ Bug Fixes & UI Improvements
+- **Wave Transition Screen**: Fixed cooldown timer positioning to stay within box bounds
+- **Game Over Screen**: Removed complex rectangle layout causing text cutoff issues
+- **Simplified UI**: Clean game over screen with better text hierarchy and spacing
+- **Visual Polish**: Consistent starfield background across all screens
+
+### 🔧 Technical Improvements
+- Eliminated layout boundary issues in UI screens
+- Simplified rendering code for better maintainability
+- Improved text positioning and readability
+
+---
+
 ## [V1.0.0] - November 15, 2025 - 🚀 RELEASE READY!
 
 ### ✅ Completed Features
