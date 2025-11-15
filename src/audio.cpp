@@ -4,8 +4,13 @@
 
 #include "common.h"
 
-// Audio system for Asteroids game
-// Uses procedural sound generation for classic arcade sounds
+/**
+ * @file audio.cpp
+ * @brief Audio system for Asteroids game using procedural sound generation
+ *
+ * Generates classic arcade-style sounds procedurally using Raylib's audio system.
+ * All sounds are created at runtime for authentic retro game audio experience.
+ */
 
 // Sound objects
 static Sound shootSound;
@@ -168,6 +173,13 @@ static Wave GenerateGameOverSound(float duration, int sampleRate)
     return wave;
 }
 
+/**
+ * @brief Initializes Raylib audio system and generates procedural sounds
+ *
+ * Creates all required sound effects using procedural generation.
+ * Handles audio device initialization and sound volume configuration.
+ * Safe to call even if audio device is not available.
+ */
 void InitializeAudio()
 {
     InitAudioDevice();
@@ -221,6 +233,12 @@ void InitializeAudio()
     SetMasterVolume(0.6f);
 }
 
+/**
+ * @brief Cleans up audio resources and closes audio system
+ *
+ * Unloads all sound objects and properly closes the audio device.
+ * Safe to call even if audio device was not initialized.
+ */
 void CleanupAudio()
 {
     if (!IsAudioDeviceReady())
@@ -237,6 +255,12 @@ void CleanupAudio()
     CloseAudioDevice();
 }
 
+/**
+ * @brief Plays subtle laser shooting sound effect
+ *
+ * Plays a short, quiet laser sound when bullets are fired.
+ * Only plays if audio device is ready.
+ */
 void PlayShootSound()
 {
     if (IsAudioDeviceReady())
@@ -245,6 +269,12 @@ void PlayShootSound()
     }
 }
 
+/**
+ * @brief Plays quiet thrust engine sound effect
+ *
+ * Plays engine sound when ship is thrusting.
+ * Only plays if audio device is ready.
+ */
 void PlayThrustSound()
 {
     if (IsAudioDeviceReady() && !thrustSoundPlaying)
@@ -254,6 +284,13 @@ void PlayThrustSound()
     }
 }
 
+/**
+ * @brief Plays asteroid explosion sound based on size
+ * @param size Asteroid size (affects explosion sound intensity)
+ *
+ * Plays different explosion sounds for small, medium, and large asteroids.
+ * Larger asteroids produce deeper, more dramatic explosion sounds.
+ */
 void PlayAsteroidExplosionSound(AsteroidSize size)
 {
     if (!IsAudioDeviceReady())
@@ -273,6 +310,12 @@ void PlayAsteroidExplosionSound(AsteroidSize size)
     }
 }
 
+/**
+ * @brief Plays dramatic ship destruction sound effect
+ *
+ * Plays a powerful explosion sound when the player's ship is destroyed.
+ * Only plays if audio device is ready.
+ */
 void PlayShipExplosionSound()
 {
     if (IsAudioDeviceReady())
@@ -281,6 +324,12 @@ void PlayShipExplosionSound()
     }
 }
 
+/**
+ * @brief Plays game over music sequence
+ *
+ * Plays a descending tone sequence when the game ends.
+ * Only plays if audio device is ready.
+ */
 void PlayGameOverSound()
 {
     if (IsAudioDeviceReady())
@@ -289,6 +338,13 @@ void PlayGameOverSound()
     }
 }
 
+/**
+ * @brief Updates thrust sound based on current thrusting state
+ * @param isThrusting true if ship is currently thrusting
+ *
+ * Manages thrust sound playback to prevent overlapping audio.
+ * Resets sound state when thrusting stops.
+ */
 void UpdateThrustSound(bool isThrusting)
 {
     if (!IsAudioDeviceReady())

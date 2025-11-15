@@ -2,6 +2,23 @@
 
 #include "common.h"
 
+/**
+ * @file rendering.cpp
+ * @brief Core rendering utilities and visual effects for Asteroids game
+ *
+ * Provides utility functions for rotation calculations, text centering,
+ * HUD display, and background starfield effects.
+ */
+
+/**
+ * @brief Rotates a point around the origin by specified degrees
+ * @param relativeX X coordinate relative to rotation center
+ * @param relativeY Y coordinate relative to rotation center
+ * @param rotationDegrees Rotation angle in degrees
+ * @return Vector2 containing the rotated coordinates
+ *
+ * Used for ship movement calculations and sprite rotations.
+ */
 Vector2 RotatePoint(float relativeX, float relativeY, float rotationDegrees)
 {
     float rotationRad = rotationDegrees * PI / 180.0f;

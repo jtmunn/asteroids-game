@@ -6,8 +6,20 @@
 
 #include "common.h"
 
-// Particle system for visual effects in Asteroids
+/**
+ * @file particles.cpp
+ * @brief Particle system for visual effects in Asteroids
+ *
+ * Provides explosion effects, thrust trails, and visual feedback
+ * using a simple particle system with physics and lifetime management.
+ */
 
+/**
+ * @brief Updates all active particles (position, fade, lifetime)
+ *
+ * Updates particle positions, applies drag, decreases lifetime,
+ * and deactivates expired particles.
+ */
 void UpdateParticles()
 {
     for (auto& particle : particles)
@@ -42,6 +54,12 @@ void UpdateParticles()
     }
 }
 
+/**
+ * @brief Renders all active particles to screen
+ *
+ * Draws particles with fade-out effects based on remaining lifetime.
+ * Particles shrink and become transparent as they expire.
+ */
 void DrawParticles()
 {
     for (const auto& particle : particles)
@@ -60,12 +78,21 @@ void DrawParticles()
     }
 }
 
+/**
+ * @brief Creates explosion particles at specified location
+ * @param x X coordinate of explosion center
+ * @param y Y coordinate of explosion center
+ * @param size Asteroid size (affects particle count and behavior)
+ *
+ * Generates particles in random directions with appropriate colors
+ * and velocities based on the explosion size.
+ */
 void CreateExplosionParticles(float x, float y, AsteroidSize size)
 {
-    int particleCount;
-    float particleSpeed;
-    float particleLife;
-    Color baseColor;
+    int particleCount = 0;
+    float particleSpeed = 0.0f;
+    float particleLife = 0.0f;
+    Color baseColor = WHITE;
 
     // Different explosion characteristics based on asteroid size
     switch (size)
@@ -119,6 +146,14 @@ void CreateExplosionParticles(float x, float y, AsteroidSize size)
     }
 }
 
+/**
+ * @brief Creates dramatic ship explosion particles
+ * @param x X coordinate of ship center
+ * @param y Y coordinate of ship center
+ *
+ * Generates a moderate amount of colorful particles with high velocity
+ * to create a dramatic ship destruction effect.
+ */
 void CreateShipExplosionParticles(float x, float y)
 {
     // Ship explosion with moderate debris
@@ -153,6 +188,15 @@ void CreateShipExplosionParticles(float x, float y)
     }
 }
 
+/**
+ * @brief Creates thrust trail particles behind ship
+ * @param x Ship X coordinate
+ * @param y Ship Y coordinate
+ * @param rotation Ship rotation angle in degrees
+ *
+ * Creates small trailing particles behind the ship when thrusting.
+ * Particles are positioned and move opposite to ship direction.
+ */
 void CreateThrustParticles(float x, float y, float rotation)
 {
     // Create a few small thrust particles behind the ship
@@ -188,6 +232,12 @@ void CreateThrustParticles(float x, float y, float rotation)
     }
 }
 
+/**
+ * @brief Removes expired particles from particle vector
+ *
+ * Uses STL remove_if algorithm to efficiently remove inactive particles
+ * and prevent memory bloat during extended gameplay.
+ */
 void CleanupParticles()
 {
     // Remove inactive particles to prevent memory bloat

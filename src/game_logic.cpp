@@ -3,7 +3,12 @@
 
 #include "common.h"
 
-// Collision detection: bullets vs asteroids
+/**
+ * @brief Handles collision detection between bullets and asteroids, creates explosions
+ *
+ * Detects collisions using distance calculation, splits asteroids into smaller pieces,
+ * updates score, plays explosion effects, and creates particle effects.
+ */
 void HandleBulletAsteroidCollisions()
 {
     for (auto& bullet : bullets)
@@ -65,7 +70,13 @@ void HandleBulletAsteroidCollisions()
     }
 }
 
-// Collision detection: ship vs asteroids
+/**
+ * @brief Handles collision detection between ship and asteroids
+ * @return true if ship was destroyed, false otherwise
+ *
+ * Detects ship-asteroid collisions using distance calculation.
+ * Creates explosion effects and decreases lives when ship is destroyed.
+ */
 bool HandleShipAsteroidCollisions()
 {
     for (auto& asteroid : asteroids)
@@ -92,7 +103,8 @@ bool HandleShipAsteroidCollisions()
             }
             else
             {
-                // Game over
+                // Game over - check and update high score
+                CheckAndUpdateHighScore();
                 currentState = GAME_OVER;
                 PlayGameOverSound();
             }
@@ -102,7 +114,12 @@ bool HandleShipAsteroidCollisions()
     return false;  // No collision
 }
 
-// Check if current wave is complete and advance to next wave
+/**
+ * @brief Checks if all asteroids are destroyed and advances to next wave
+ *
+ * Scans all asteroids to determine if wave is complete.
+ * Increments wave counter and starts transition when all asteroids destroyed.
+ */
 void CheckWaveCompletion()
 {
     bool allAsteroidsDestroyed = true;
@@ -124,7 +141,12 @@ void CheckWaveCompletion()
     }
 }
 
-// Clean up inactive game objects
+/**
+ * @brief Removes inactive bullets and asteroids from game vectors
+ *
+ * Uses STL remove_if to efficiently clean up deactivated game objects
+ * and maintain optimal performance.
+ */
 void CleanupInactiveObjects()
 {
     // Clean up inactive bullets
@@ -171,7 +193,12 @@ void SpawnAsteroidWave(std::vector<Asteroid>& asteroids, int wave, int screenWid
     }
 }
 
-// Reset game to initial state
+/**
+ * @brief Resets all game variables to initial state
+ *
+ * Resets score, lives, wave counter, ship position/velocity,
+ * clears all game objects, and prepares for new game.
+ */
 void ResetGameState()
 {
     score = 0;

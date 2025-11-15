@@ -3,7 +3,13 @@
 
 #include "common.h"
 
-// Handle ship input and controls
+/**
+ * @brief Processes ship movement input (WASD/Arrow keys) and shooting (Space)
+ *
+ * Handles rotation, thrust, braking, and shooting controls.
+ * Creates thrust particles and plays audio effects.
+ * Implements realistic physics with drag and momentum.
+ */
 void HandleShipInput()
 {
     // Ship controls
@@ -69,7 +75,12 @@ void HandleShipInput()
     }
 }
 
-// Update ship physics (movement, drag, speed limiting, screen wrapping)
+/**
+ * @brief Updates ship position, rotation, and applies drag/screen wrapping
+ *
+ * Applies physics drag, limits maximum speed, updates position,
+ * and handles screen edge wrapping for seamless movement.
+ */
 void UpdateShipPhysics()
 {
     // Apply drag
@@ -99,7 +110,12 @@ void UpdateShipPhysics()
         ship.y = 0;
 }
 
-// Update bullet physics (movement and boundary checking)
+/**
+ * @brief Updates bullet positions, handles screen wrapping and lifetime
+ *
+ * Moves bullets based on their velocity and deactivates bullets
+ * that travel beyond screen boundaries.
+ */
 void UpdateBulletPhysics()
 {
     for (auto& bullet : bullets)
@@ -118,7 +134,12 @@ void UpdateBulletPhysics()
     }
 }
 
-// Update asteroid physics (movement and screen wrapping)
+/**
+ * @brief Updates asteroid positions, rotation, and screen wrapping
+ *
+ * Moves asteroids based on their velocity and handles screen edge
+ * wrapping to keep asteroids in play area.
+ */
 void UpdateAsteroidPhysics()
 {
     for (auto& asteroid : asteroids)
@@ -141,7 +162,11 @@ void UpdateAsteroidPhysics()
     }
 }
 
-// Update all physics systems for playing state
+/**
+ * @brief Updates all physics systems during PLAYING state
+ *
+ * Coordinates updates for ship, bullets, and asteroids in proper order.
+ */
 void UpdatePlayingPhysics()
 {
     HandleShipInput();

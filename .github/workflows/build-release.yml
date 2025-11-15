@@ -1,0 +1,105 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # Triggers on version tags like v1.0.0, v1.1.0, etc.
+  workflow_dispatch:  # Allows manual triggering from GitHub UI
+
+jobs:
+  build-windows:
+    name: Build Windows Release
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup MinGW
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: MINGW64
+        update: true
+        install: >-
+          mingw-w64-x86_64-gcc
+          mingw-w64-x86_64-make
+          mingw-w64-x86_64-cmake
+          git
+          
+    - name: Install Raylib
+      shell: msys2 {0}
+      run: |
+        git clone --depth 1 --branch 5.0 https://github.com/raysan5/raylib.git
+        cd raylib/src
+        make PLATFORM=PLATFORM_DESKTOP
+        
+    - name: Build Asteroids
+      shell: msys2 {0}
+      run: |
+        export RAYLIB_PATH=$(pwd)/raylib
+        mingw32-make RAYLIB_PATH=$RAYLIB_PATH PROJECT_NAME=asteroids OBJS=src/*.cpp
+        
+    - name: Prepare Release Files
+      shell: msys2 {0}
+      run: |
+        mkdir release
+        cp asteroids.exe release/
+        cp README.md release/
+        cp CHANGELOG.md release/ 2>/dev/null || echo "No CHANGELOG.md found"
+        
+    - name: Create Release Archive
+      shell: msys2 {0}
+      run: |
+        cd release
+        zip -r ../asteroids-windows.zip .
+        
+    - name: Upload Release Asset
+      uses: actions/upload-artifact@v4
+      with:
+        name: asteroids-windows
+        path: asteroids-windows.zip
+        
+  create-release:
+    name: Create GitHub Release
+    needs: build-windows
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Download Windows Build
+      uses: actions/download-artifact@v4
+      with:
+        name: asteroids-windows
+        
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: asteroids-windows.zip
+        generate_release_notes: true
+        name: "Asteroids ${{ github.ref_name }}"
+        body: |
+          ## 🎮 Asteroids Game Release ${{ github.ref_name }}
+          
+          **AI-Assisted Learning Project - C++ & Raylib**
+          
+          ### 📦 Downloads
+          - **Windows**: `asteroids-windows.zip` - Contains executable and documentation
+          
+          ### 🚀 What's Included
+          - Complete game executable (`asteroids.exe`)
+          - Documentation (`README.md`)
+          - No additional dependencies required
+          
+          ### 🎯 How to Play
+          1. Download and extract `asteroids-windows.zip`
+          2. Run `asteroids.exe`
+          3. Use WASD or Arrow keys to move, Space to shoot
+          4. Enjoy classic Asteroids with modern polish!
+          
+          ### 🤖 Development Note
+          This game was created primarily using GitHub Copilot Agent Mode as an AI-assisted learning project. See README.md for full details.
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

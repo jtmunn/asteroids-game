@@ -1,6 +1,7 @@
 # Asteroids - Classic Arcade Game Recreation
+## 🚀 **V1.0 RELEASE** - Professional-Quality Game Complete!
 
-A modern recreation of the classic Asteroids arcade game, built in C++ with Raylib. Features professional-quality audio, particle effects, and polished gameplay while maintaining the authentic retro feel.
+A modern recreation of the classic Asteroids arcade game, built in C++ with Raylib. Features professional-quality audio, particle effects, high score persistence, pause functionality, and polished gameplay while maintaining the authentic retro feel.
 
 ## 🤖 **AI-Assisted Learning Project**
 
@@ -36,11 +37,19 @@ A modern recreation of the classic Asteroids arcade game, built in C++ with Rayl
 - **Animated UI** - Starfield backgrounds, enhanced menus, wave transitions
 - **Professional HUD** - Clean display with score, lives, and wave information
 
-### Quality of Life
+### V1.0 Features
+- **High Score System** - Persistent high score tracking with file I/O
+  - Automatic save/load from `highscore.dat`
+  - Display on main menu and dedicated High Scores screen
+  - "NEW HIGH SCORE!" notification when achieved
+- **Advanced Pause System** - Professional pause functionality
+  - P key for quick pause/resume during gameplay
+  - Dynamic context-aware pause menus (Continue/Main Menu)
+  - Professional pause overlay with visual effects
 - **Safety Spawn System** - Visual feedback and safe respawn mechanics
 - **Enhanced Menu System** - Resume functionality, scaling options, visual highlights
 - **Smooth State Management** - Seamless transitions between game states
-- **Bug-Free Experience** - Comprehensive edge case handling and testing
+- **Professional Documentation** - Comprehensive Doxygen-style function documentation
 
 ## 🎮 Controls
 
@@ -53,6 +62,7 @@ A modern recreation of the classic Asteroids arcade game, built in C++ with Rayl
 | **Shoot** | Space |
 | **Menu Navigation** | W/S or ↑/↓ |
 | **Select** | Enter or Space |
+| **Pause/Resume** | P (during gameplay) |
 | **Return to Menu** | ESC (during gameplay) |
 | **Exit Game** | Select "Exit" from menu |
 

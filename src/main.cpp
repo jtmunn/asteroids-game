@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cmath>
+#include <cstdio>
 
 #include "common.h"
 
@@ -13,6 +14,7 @@ GameState currentState = MENU;
 int score = 0;
 int lives = 0;  // No active game at startup
 int currentWave = 1;
+int highScore = 0;  // Loaded from file at startup
 float waveTransitionTimer = 0.0f;
 float inputCooldownTimer = 0.0f;
 int currentScale = 2;
@@ -35,6 +37,58 @@ const float BASE_COOLDOWN_DURATION = 1.0f;
 const float PENALTY_PER_DEATH = 1.5f;  // More severe death penalty
 const float WAVE_TRANSITION_DURATION = 2.0f;
 
+// High Score System Implementation
+/**
+ * @brief Loads high score from persistent storage file
+ *
+ * Attempts to load high score from "highscore.dat" binary file.
+ * Sets high score to 0 if file doesn't exist.
+ */
+void LoadHighScore()
+{
+    FILE* file = fopen("highscore.dat", "rb");
+    if (file != nullptr)
+    {
+        fread(&highScore, sizeof(int), 1, file);
+        fclose(file);
+    }
+    else
+    {
+        highScore = 0;  // Default if file doesn't exist
+    }
+}
+
+/**
+ * @brief Saves current high score to persistent storage file
+ *
+ * Writes high score to "highscore.dat" binary file for persistence
+ * across game sessions.
+ */
+void SaveHighScore()
+{
+    FILE* file = fopen("highscore.dat", "wb");
+    if (file != nullptr)
+    {
+        fwrite(&highScore, sizeof(int), 1, file);
+        fclose(file);
+    }
+}
+
+/**
+ * @brief Checks current score against high score and updates if higher
+ *
+ * Compares current game score with stored high score.
+ * Updates and saves new high score if current score is higher.
+ */
+void CheckAndUpdateHighScore()
+{
+    if (score > highScore)
+    {
+        highScore = score;
+        SaveHighScore();
+    }
+}
+
 int main()
 {
     // Initialize window with initial scale
@@ -45,6 +99,9 @@ int main()
 
     // Initialize audio system
     InitializeAudio();
+
+    // Load high score from file
+    LoadHighScore();
 
     SetTargetFPS(60);
     SetExitKey(0);  // Disable default ESC to exit behavior
@@ -88,6 +145,17 @@ int main()
                     currentState = MENU;
                 }
                 // Any other key does nothing
+            }
+            break;
+
+            case HIGH_SCORES:
+            {
+                // High scores screen input handling
+                if (IsKeyPressed(KEY_ESCAPE) || IsKeyPressed(KEY_M) || IsKeyPressed(KEY_ENTER) ||
+                    IsKeyPressed(KEY_SPACE))
+                {
+                    currentState = MENU;
+                }
             }
             break;
 
@@ -154,6 +222,13 @@ int main()
 
             case PLAYING:
             {
+                // Check for pause input
+                if (IsKeyPressed(KEY_P))
+                {
+                    currentState = PAUSED;
+                    break;
+                }
+
                 // Update all physics systems
                 UpdatePlayingPhysics();
 
@@ -174,7 +249,27 @@ int main()
             }
             break;
 
-                // PAUSED state removed - now handled by unified menu
+            case PAUSED:
+            {
+                // Handle unpause input (quick keys)
+                if (IsKeyPressed(KEY_P))
+                {
+                    currentState = PLAYING;
+                }
+                else
+                {
+                    // Use dynamic menu system for pause menu
+                    static GameState lastPauseState = PLAYING;  // Track state changes
+                    if (lastPauseState != PAUSED)
+                    {
+                        BuildMenuItems(PAUSED);
+                        lastPauseState = PAUSED;
+                    }
+                    UpdateDynamicMenu();
+                }
+                // Game is frozen - no physics updates
+            }
+            break;
         }
 
         // Update particle system in all states
@@ -218,16 +313,47 @@ int main()
             }
             break;
 
+            case HIGH_SCORES:
+            {
+                // High scores screen with starfield background
+                DrawMenuBackground();
+
+                // Main high scores panel
+                DrawRectangle(gameWidth / 2 - 200, gameHeight / 2 - 150, 400, 300,
+                              Fade(BLACK, 0.8f));
+                DrawRectangleLines(gameWidth / 2 - 200, gameHeight / 2 - 150, 400, 300, YELLOW);
+                DrawRectangleLines(gameWidth / 2 - 198, gameHeight / 2 - 148, 396, 296,
+                                   Fade(YELLOW, 0.5f));
+
+                // Title
+                DrawTextCentered("HIGH SCORES", gameHeight / 2 - 120, 36, YELLOW, gameWidth);
+
+                // Current high score
+                DrawTextCentered("BEST SCORE:", gameHeight / 2 - 60, 24, WHITE, gameWidth);
+                DrawTextCentered(TextFormat("%d", highScore), gameHeight / 2 - 30, 32, YELLOW,
+                                 gameWidth);
+
+                // Instructions for future expansion
+                DrawTextCentered("More scoring features", gameHeight / 2 + 20, 18, GRAY, gameWidth);
+                DrawTextCentered("coming in future updates!", gameHeight / 2 + 45, 18, GRAY,
+                                 gameWidth);
+
+                // Controls
+                DrawTextCentered("Press ESC, M, ENTER or SPACE to return", gameHeight / 2 + 100, 18,
+                                 LIGHTGRAY, gameWidth);
+            }
+            break;
+
             case GAME_OVER:
             {
                 // Enhanced game over screen
                 DrawMenuBackground();
 
-                // Main game over panel
-                DrawRectangle(gameWidth / 2 - 200, gameHeight / 2 - 120, 400, 240,
+                // Main game over panel - increased height for high score display
+                DrawRectangle(gameWidth / 2 - 200, gameHeight / 2 - 130, 400, 260,
                               Fade(BLACK, 0.8f));
-                DrawRectangleLines(gameWidth / 2 - 200, gameHeight / 2 - 120, 400, 240, RED);
-                DrawRectangleLines(gameWidth / 2 - 198, gameHeight / 2 - 118, 396, 236,
+                DrawRectangleLines(gameWidth / 2 - 200, gameHeight / 2 - 130, 400, 260, RED);
+                DrawRectangleLines(gameWidth / 2 - 198, gameHeight / 2 - 128, 396, 256,
                                    Fade(RED, 0.5f));
 
                 // Game over title with effect
@@ -242,13 +368,25 @@ int main()
                 DrawTextCentered("FINAL STATISTICS", gameHeight / 2 - 30, 16, YELLOW, gameWidth);
                 DrawTextCentered(TextFormat("Score: %d", score), gameHeight / 2 - 10, 20, WHITE,
                                  gameWidth);
-                DrawTextCentered(TextFormat("Wave Reached: %d", currentWave), gameHeight / 2 + 15,
-                                 20, WHITE, gameWidth);
+
+                // Show if new high score was achieved
+                if (score == highScore && score > 0)
+                {
+                    DrawTextCentered("NEW HIGH SCORE!", gameHeight / 2 + 10, 18, YELLOW, gameWidth);
+                }
+                else
+                {
+                    DrawTextCentered(TextFormat("High Score: %d", highScore), gameHeight / 2 + 10,
+                                     18, LIGHTGRAY, gameWidth);
+                }
+
+                DrawTextCentered(TextFormat("Wave Reached: %d", currentWave), gameHeight / 2 + 30,
+                                 18, WHITE, gameWidth);
 
                 // Controls
-                DrawTextCentered("Press R or ENTER to Restart", gameHeight / 2 + 50, 18, LIGHTGRAY,
+                DrawTextCentered("Press R or ENTER to Restart", gameHeight / 2 + 60, 18, LIGHTGRAY,
                                  gameWidth);
-                DrawTextCentered("Press M or ESC for Menu", gameHeight / 2 + 75, 18, LIGHTGRAY,
+                DrawTextCentered("Press M or ESC for Menu", gameHeight / 2 + 85, 18, LIGHTGRAY,
                                  gameWidth);
             }
             break;
@@ -398,6 +536,72 @@ int main()
                 DrawEnhancedHUD();
 
                 // No pause overlay needed - ESC goes directly to menu
+            }
+            break;
+
+            case PAUSED:
+            {
+                // Draw the same content as PLAYING but with pause overlay
+                // Draw starfield background
+                DrawMenuBackground();
+
+                // Draw ship
+                Vector2 tip = RotatePoint(0, -10, ship.rotation);
+                Vector2 leftWing = RotatePoint(-8, 8, ship.rotation);
+                Vector2 rightWing = RotatePoint(8, 8, ship.rotation);
+
+                DrawTriangle((Vector2){ship.x + tip.x, ship.y + tip.y},
+                             (Vector2){ship.x + leftWing.x, ship.y + leftWing.y},
+                             (Vector2){ship.x + rightWing.x, ship.y + rightWing.y}, WHITE);
+
+                // Draw bullets
+                for (const auto& bullet : bullets)
+                {
+                    if (bullet.active)
+                    {
+                        DrawCircle(bullet.x, bullet.y, 2, WHITE);
+                    }
+                }
+
+                // Draw asteroids
+                for (const auto& asteroid : asteroids)
+                {
+                    if (asteroid.active)
+                    {
+                        float radius = (asteroid.size == LARGE)    ? 30
+                                       : (asteroid.size == MEDIUM) ? 20
+                                                                   : 10;
+                        DrawCircleLines(asteroid.x, asteroid.y, radius, WHITE);
+                    }
+                }
+
+                // Draw particle effects
+                DrawParticles();
+
+                // Draw HUD
+                DrawEnhancedHUD();
+
+                // Draw pause overlay
+                DrawRectangle(0, 0, gameWidth, gameHeight, Fade(BLACK, 0.7f));
+
+                // Pause panel with pulsing effect
+                static float pauseTimer = 0.0f;
+                pauseTimer += GetFrameTime() * 3.0f;
+                float pulse = 0.8f + 0.2f * sinf(pauseTimer);
+
+                DrawRectangle(gameWidth / 2 - 150, gameHeight / 2 - 80, 300, 160,
+                              Fade(BLACK, 0.9f));
+                DrawRectangleLines(gameWidth / 2 - 150, gameHeight / 2 - 80, 300, 160,
+                                   Fade(WHITE, pulse));
+
+                DrawTextCentered("PAUSED", gameHeight / 2 - 50, 32, Fade(WHITE, pulse), gameWidth);
+
+                // Use dynamic menu system for pause options
+                BuildMenuItems(PAUSED);
+                DrawDynamicMenu();
+
+                DrawTextCentered("Press P to resume quickly", gameHeight / 2 + 50, 14, GRAY,
+                                 gameWidth);
             }
             break;
         }
