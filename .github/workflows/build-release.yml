@@ -51,6 +51,15 @@ jobs:
         cp README.md release/
         cp CHANGELOG.md release/ 2>/dev/null || echo "No CHANGELOG.md found"
         
+        # Copy required MinGW runtime DLLs
+        cp /mingw64/bin/libgcc_s_seh-1.dll release/
+        cp /mingw64/bin/libstdc++-6.dll release/
+        cp /mingw64/bin/libwinpthread-1.dll release/
+        
+        # List files to verify
+        echo "Release package contents:"
+        ls -la release/
+        
     - name: Create Release Archive
       shell: msys2 {0}
       run: |
@@ -94,7 +103,8 @@ jobs:
           
           ### 🚀 What's Included
           - Complete game executable (`asteroids.exe`)
-          - Documentation (`README.md`)
+          - Required MinGW runtime libraries (libgcc_s_seh-1.dll, libstdc++-6.dll, libwinpthread-1.dll)
+          - Documentation (`README.md`, `CHANGELOG.md`)
           - No additional dependencies required
           
           ### 🎯 How to Play

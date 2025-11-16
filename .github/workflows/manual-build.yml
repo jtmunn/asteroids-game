@@ -43,10 +43,19 @@ jobs:
       run: |
         export RAYLIB_PATH=$(pwd)/raylib
         mingw32-make RAYLIB_PATH=$RAYLIB_PATH PROJECT_NAME=asteroids OBJS=src/*.cpp
-        ls -la asteroids.exe
+        
+        # Create test build package with DLLs
+        mkdir test-build
+        cp asteroids.exe test-build/
+        cp /mingw64/bin/libgcc_s_seh-1.dll test-build/
+        cp /mingw64/bin/libstdc++-6.dll test-build/
+        cp /mingw64/bin/libwinpthread-1.dll test-build/
+        
+        echo "Test build package contents:"
+        ls -la test-build/
         
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
       with:
         name: asteroids-test-build
-        path: asteroids.exe
+        path: test-build/
