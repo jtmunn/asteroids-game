@@ -32,7 +32,7 @@ jobs:
       run: |
         git clone --depth 1 --branch 5.0 https://github.com/raysan5/raylib.git
         cd raylib/src
-        make PLATFORM=PLATFORM_DESKTOP
+        mingw32-make PLATFORM=PLATFORM_DESKTOP
         
     - name: Build Asteroids
       shell: msys2 {0}

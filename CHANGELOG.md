@@ -1,5 +1,21 @@
 # Asteroids Game - Development Changelog
 
+## [V1.0.3] - November 15, 2025 - 🔧 CI/CD Pipeline Fixes
+
+### 🛠️ Build System Improvements
+- **GitHub Actions Fix**: Resolved "make: command not found" error in automated builds
+- **Consistent Toolchain**: Updated both build workflows to use `mingw32-make` throughout
+- **Reliable CI/CD**: Fixed inconsistent build commands between Raylib and project compilation
+- **Automated Releases**: Ensured GitHub Actions can successfully build and deploy releases
+
+### 🔧 Technical Improvements
+- Fixed build-release.yml workflow to use consistent MinGW toolchain
+- Fixed manual-build.yml workflow for reliable test builds
+- Eliminated build tool inconsistencies in MSYS2 environment
+- Improved automated release pipeline reliability
+
+---
+
 ## [V1.0.2] - November 15, 2025 - 🎮 Menu System Unification
 
 ### ✅ Menu System Improvements
