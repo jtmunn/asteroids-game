@@ -1,7 +1,7 @@
 # Asteroids - Classic Arcade Game Recreation
-## 🚀 **V1.0.1 RELEASE** - Professional-Quality Game Complete!
+## 🚀 **V1.0.2 RELEASE** - Fun Learning Project Complete!
 
-A modern recreation of the classic Asteroids arcade game, built in C++ with Raylib. Features professional-quality audio, particle effects, high score persistence, pause functionality, and polished gameplay while maintaining the authentic retro feel.
+A modern recreation of the classic Asteroids arcade game, built in C++ with Raylib. Features procedural audio, particle effects, high score persistence, pause functionality, and smooth gameplay while maintaining the authentic retro feel.
 
 ## 🤖 **AI-Assisted Learning Project**
 
@@ -15,9 +15,22 @@ A modern recreation of the classic Asteroids arcade game, built in C++ with Rayl
 >
 > If you're looking for examples of traditional hand-coded games, this repository may not be suitable. However, if you're interested in AI-assisted development processes or learning game programming concepts, this project demonstrates effective human-AI collaboration in software development.
 
-## 🎮 Screenshot
+## 🎮 Screenshots
 
-![Asteroids Gameplay](images/screenshot.png)
+### Main Menu
+![Main Menu](images/main_menu.png)
+
+### Gameplay
+![Gameplay](images/gameplay.png)
+
+### Pause Menu (Same as Main Menu)
+![Pause Menu](images/paused.png)
+
+### Game Over Screen
+![Game Over](images/gameover.png)
+
+### Wave Transition
+![Wave Transition](images/wave_transition.png)
 *Classic Asteroids action with modern particle effects and starfield background*
 
 ## 🚀 Features

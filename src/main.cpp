@@ -258,12 +258,17 @@ int main()
                 }
                 else
                 {
-                    // Use dynamic menu system for pause menu
-                    static GameState lastPauseState = PLAYING;  // Track state changes
-                    if (lastPauseState != PAUSED)
+                    // Use same menu system as main menu - it will show Resume Game since lives > 0
+                    static bool menuBuilt = false;
+                    static GameState lastState = PLAYING;
+
+                    // Build menu when first entering pause or when returning from another state
+                    if (!menuBuilt || lastState != PAUSED)
                     {
-                        BuildMenuItems(PAUSED);
-                        lastPauseState = PAUSED;
+                        BuildMenuItems(MENU);   // Use MENU context, not PAUSED
+                        selectedMenuIndex = 0;  // Will select Resume Game by default
+                        menuBuilt = true;
+                        lastState = PAUSED;
                     }
                     UpdateDynamicMenu();
                 }
@@ -531,67 +536,9 @@ int main()
 
             case PAUSED:
             {
-                // Draw the same content as PLAYING but with pause overlay
-                // Draw starfield background
-                DrawMenuBackground();
-
-                // Draw ship
-                Vector2 tip = RotatePoint(0, -10, ship.rotation);
-                Vector2 leftWing = RotatePoint(-8, 8, ship.rotation);
-                Vector2 rightWing = RotatePoint(8, 8, ship.rotation);
-
-                DrawTriangle((Vector2){ship.x + tip.x, ship.y + tip.y},
-                             (Vector2){ship.x + leftWing.x, ship.y + leftWing.y},
-                             (Vector2){ship.x + rightWing.x, ship.y + rightWing.y}, WHITE);
-
-                // Draw bullets
-                for (const auto& bullet : bullets)
-                {
-                    if (bullet.active)
-                    {
-                        DrawCircle(bullet.x, bullet.y, 2, WHITE);
-                    }
-                }
-
-                // Draw asteroids
-                for (const auto& asteroid : asteroids)
-                {
-                    if (asteroid.active)
-                    {
-                        float radius = (asteroid.size == LARGE)    ? 30
-                                       : (asteroid.size == MEDIUM) ? 20
-                                                                   : 10;
-                        DrawCircleLines(asteroid.x, asteroid.y, radius, WHITE);
-                    }
-                }
-
-                // Draw particle effects
-                DrawParticles();
-
-                // Draw HUD
-                DrawEnhancedHUD();
-
-                // Draw pause overlay
-                DrawRectangle(0, 0, gameWidth, gameHeight, Fade(BLACK, 0.7f));
-
-                // Pause panel with pulsing effect
-                static float pauseTimer = 0.0f;
-                pauseTimer += GetFrameTime() * 3.0f;
-                float pulse = 0.8f + 0.2f * sinf(pauseTimer);
-
-                DrawRectangle(gameWidth / 2 - 150, gameHeight / 2 - 80, 300, 160,
-                              Fade(BLACK, 0.9f));
-                DrawRectangleLines(gameWidth / 2 - 150, gameHeight / 2 - 80, 300, 160,
-                                   Fade(WHITE, pulse));
-
-                DrawTextCentered("PAUSED", gameHeight / 2 - 50, 32, Fade(WHITE, pulse), gameWidth);
-
-                // Use dynamic menu system for pause options
-                BuildMenuItems(PAUSED);
+                // Just show the regular main menu - no special pause rendering
+                // The menu system will automatically show "Resume Game" since lives > 0
                 DrawDynamicMenu();
-
-                DrawTextCentered("Press P to resume quickly", gameHeight / 2 + 50, 14, GRAY,
-                                 gameWidth);
             }
             break;
         }

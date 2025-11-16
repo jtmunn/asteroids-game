@@ -1,5 +1,7 @@
 #include <raylib.h>
 
+#include <cmath>
+
 #include "common.h"
 
 /**
@@ -53,13 +55,6 @@ void BuildMenuItems(GameState context)
             currentMenuItems.push_back(
                 {"Scale: " + std::to_string(currentScale) + "x", ACTION_SCALE, true});
             currentMenuItems.push_back({"Exit", ACTION_EXIT, false});
-            break;
-
-        case PAUSED:
-            // Pause menu - simple options
-            currentMenuItems.push_back({"Continue", ACTION_RESUME, false});
-            currentMenuItems.push_back(
-                {"Main Menu", ACTION_EXIT, false});  // EXIT will go to menu in pause context
             break;
 
         default:
@@ -140,7 +135,7 @@ void ExecuteMenuAction(MenuActionType action)
             currentScale = (currentScale % 4) + 1;
             SetWindowSize(gameWidth * currentScale, gameHeight * currentScale);
             // Update the label for dynamic display
-            BuildMenuItems(currentState == PAUSED ? PAUSED : MENU);
+            BuildMenuItems(MENU);
             break;
 
         case ACTION_EXIT:
@@ -148,6 +143,8 @@ void ExecuteMenuAction(MenuActionType action)
             {
                 // In pause context, EXIT means go to main menu
                 currentState = MENU;
+                // Reset menu state for clean transition
+                ResetMenuState();
             }
             else
             {
@@ -191,8 +188,8 @@ void DrawDynamicMenu()
     // Draw decorative background elements
     DrawMenuBackground();
 
-    // Enhanced title with outline effect (only for main menu)
-    if (currentState == MENU)
+    // Enhanced title with outline effect (for main menu and when paused)
+    if (currentState == MENU || currentState == PAUSED)
     {
         DrawTextCentered("ASTEROIDS", gameHeight / 2 - 119, 48, BLACK, gameWidth);  // Shadow
         DrawTextCentered("ASTEROIDS", gameHeight / 2 - 120, 48, WHITE, gameWidth);
@@ -202,7 +199,8 @@ void DrawDynamicMenu()
     int menuItemCount = currentMenuItems.size();
     int lineHeight = 35;
     int totalMenuHeight = menuItemCount * lineHeight;
-    int yStart = gameHeight / 2 - (totalMenuHeight / 2) + (currentState == MENU ? 20 : 0);
+    int yStart = gameHeight / 2 - (totalMenuHeight / 2) +
+                 ((currentState == MENU || currentState == PAUSED) ? 20 : 0);
 
     // Draw menu items
     for (int i = 0; i < menuItemCount; i++)
@@ -210,11 +208,15 @@ void DrawDynamicMenu()
         bool isSelected = (i == selectedMenuIndex);
         int yPos = yStart + (i * lineHeight);
 
-        // Highlight background for selected item
+        // Highlight background for selected item with pulsing effect
         if (isSelected)
         {
-            DrawRectangle((gameWidth - 250) / 2, yPos - 5, 250, 30, Fade(YELLOW, 0.2f));
-            DrawRectangleLines((gameWidth - 250) / 2, yPos - 5, 250, 30, YELLOW);
+            static float selectionTimer = 0.0f;
+            selectionTimer += GetFrameTime() * 3.0f;
+            float pulse = 0.7f + 0.3f * sinf(selectionTimer);
+
+            DrawRectangle((gameWidth - 250) / 2, yPos - 5, 250, 30, Fade(YELLOW, 0.15f * pulse));
+            DrawRectangleLines((gameWidth - 250) / 2, yPos - 5, 250, 30, Fade(YELLOW, pulse));
         }
 
         // Draw menu item text

@@ -1,5 +1,22 @@
 # Asteroids Game - Development Changelog
 
+## [V1.0.2] - November 15, 2025 - 🎮 Menu System Unification
+
+### ✅ Menu System Improvements
+- **Unified Menu System**: Eliminated dual menu systems - pause and main menu now identical
+- **Consistent UX**: Pressing P or ESC shows the same menu with "Resume Game" option
+- **Simplified Architecture**: Removed complex pause overlay logic in favor of single menu system
+- **Improved Screenshots**: Added comprehensive screenshot collection showing all game states
+- **Enhanced Navigation**: Pulsing menu selection effects for better visual feedback
+
+### 🔧 Technical Improvements
+- Removed duplicate menu rendering code paths
+- Simplified state management for pause functionality
+- Cleaner separation between game logic and menu display
+- Consistent menu behavior across all game states
+
+---
+
 ## [V1.0.1] - November 15, 2025 - 🎨 UI Polish Update
 
 ### ✅ Bug Fixes & UI Improvements
