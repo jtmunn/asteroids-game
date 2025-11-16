@@ -9,6 +9,9 @@ on:
         default: false
         type: boolean
 
+permissions:
+  contents: write
+
 jobs:
   build-test:
     name: Test Build
