@@ -1,5 +1,21 @@
 # Asteroids Game - Development Changelog
 
+## [V1.0.4] - November 15, 2025 - 🚀 Runtime Dependencies Fix
+
+### 🛠️ Distribution Improvements
+- **Runtime DLLs Included**: Fixed missing MinGW runtime libraries in release packages
+- **Standalone Executable**: Releases now include libgcc_s_seh-1.dll, libstdc++-6.dll, libwinpthread-1.dll
+- **No Installation Required**: Game now runs on systems without MinGW/development tools installed
+- **Improved Release Packaging**: Both automated and manual builds include all required dependencies
+
+### 🔧 Technical Improvements
+- Updated GitHub Actions workflows to bundle MinGW runtime libraries
+- Enhanced release documentation to mention included dependencies
+- Improved artifact packaging for both release and test builds
+- Ensures portable distribution without external dependencies
+
+---
+
 ## [V1.0.3] - November 15, 2025 - 🔧 CI/CD Pipeline Fixes
 
 ### 🛠️ Build System Improvements
