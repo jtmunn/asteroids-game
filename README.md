@@ -129,8 +129,8 @@ mingw32-make RAYLIB_PATH=C:/raylib/raylib PROJECT_NAME=asteroids OBJS=src/*.cpp
 ## 🎯 Roadmap
 
 ### V1.0 (Current)
-- [ ] High score persistence system
-- [ ] Pause overlay functionality
+- [x] High score persistence system
+- [x] Pause overlay functionality
 - [x] All core gameplay features
 - [x] Complete audio system
 - [x] Particle effects
