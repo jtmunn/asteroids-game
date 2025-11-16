@@ -48,21 +48,21 @@ A modern recreation of the classic Asteroids arcade game, built in C++ with Rayl
 - **Particle Effects System** - Dynamic visual feedback
   - Asteroid explosions, ship destruction, thrust trails
 - **Animated UI** - Starfield backgrounds, enhanced menus, wave transitions
-- **Professional HUD** - Clean display with score, lives, and wave information
+- **Sleek HUD** - Clean display with score, lives, and wave information
 
 ### V1.0 Features
 - **High Score System** - Persistent high score tracking with file I/O
   - Automatic save/load from `highscore.dat`
   - Display on main menu and dedicated High Scores screen
   - "NEW HIGH SCORE!" notification when achieved
-- **Advanced Pause System** - Professional pause functionality
+- **Advanced Pause System** - Pause functionality
   - P key for quick pause/resume during gameplay
   - Dynamic context-aware pause menus (Continue/Main Menu)
-  - Professional pause overlay with visual effects
+  - Overlay with visual effects
 - **Safety Spawn System** - Visual feedback and safe respawn mechanics
 - **Enhanced Menu System** - Resume functionality, scaling options, visual highlights
 - **Smooth State Management** - Seamless transitions between game states
-- **Professional Documentation** - Comprehensive Doxygen-style function documentation
+- **Comprehensive Documentation** - Doxygen-style function documentation
 
 ## 🎮 Controls
 
@@ -75,8 +75,7 @@ A modern recreation of the classic Asteroids arcade game, built in C++ with Rayl
 | **Shoot** | Space |
 | **Menu Navigation** | W/S or ↑/↓ |
 | **Select** | Enter or Space |
-| **Pause/Resume** | P (during gameplay) |
-| **Return to Menu** | ESC (during gameplay) |
+| **Pause/Resume** | P or ESC (during gameplay) |
 | **Exit Game** | Select "Exit" from menu |
 
 ## 🛠️ Technical Details
@@ -146,13 +145,13 @@ This AI-assisted project demonstrates:
 - **Human-AI Collaboration** - Strategic decisions by human, implementation by AI
 - **Iterative Development** - Continuous feedback and refinement cycles
 - **Learning Through Guidance** - Understanding concepts through AI-generated examples
-- **Quality Through AI** - Leveraging AI for professional-grade code structure
+- **Quality Through AI** - Leveraging AI for industry standard code structure
 
 ### Traditional Development Values Maintained:
 - **Authentic retro experience** with modern polish
 - **Clean, maintainable code** architecture  
 - **Performance and stability** over feature bloat
-- **Professional quality** with attention to detail
+- **High quality** with attention to detail
 
 ### AI Development Process:
 1. **Human defines requirements** and provides feedback
@@ -176,7 +175,7 @@ This project served as an educational exploration of:
 - **Game Development Fundamentals** - Physics, collision detection, state management
 - **C++ Architecture Patterns** - Modular design, RAII, memory management
 - **AI-Assisted Programming** - Effective prompting, iterative refinement, human oversight
-- **Professional Development Practices** - Documentation, testing, version control
+- **Industry standard Development Practices** - Documentation, testing, version control
 
 ### What I Learned:
 - Game loop architecture and state management
