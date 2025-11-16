@@ -8,6 +8,9 @@
 
 # VS Code settings (optional - you might want to keep some)
 .vscode/settings.json
+
+# Project documentation (kept locally only)
+roadmap.md
 .vscode/launch.json
 
 # Debug files
